@@ -8,8 +8,17 @@ It comes with commands that give various informations and analytics about the re
 - Available supply left
 - ...
 
+# Invite MNLTH discord bot: 
 
-HOW TO RUN IT BY YOURSELF:
+You can add the mnlth-discord-bot to your server by using this link:
+
+- https://discord.com/api/oauth2/authorize?client_id=971530632826077265&permissions=0&scope=applications.commands%20bot
+
+
+
+# Run it yourself:
+
+You can also host the bot by yourself following these steps:
 
 1: Clone the repo
 
@@ -30,6 +39,8 @@ HOW TO RUN IT BY YOURSELF:
 
 6: run the discord bot: `node .`
 
-
+# Screenshots:
 
 ![image](https://user-images.githubusercontent.com/105301169/167681233-55096972-b16e-44c2-a65a-76e7977b27a1.png)
+![image](https://user-images.githubusercontent.com/105301169/167682627-688c9173-ebc2-4156-bc68-bab0a3732d77.png)
+
