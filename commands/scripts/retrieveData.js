@@ -29,7 +29,7 @@ const selectors = {
     murakamiBox: '#Body\\ react-aria-10 > div > div > div.Scrollboxreact__DivContainer-sc-1b04elr-0.gUuGNP.StringTraitFilter--results > div > button:nth-child(7)',
     alienBox: '#Body\\ react-aria-10 > div > div > div.Scrollboxreact__DivContainer-sc-1b04elr-0.gUuGNP.StringTraitFilter--results > div > button:nth-child(8)'
   },
-  supply: '#main > div > div > div.Blockreact__Block-sc-1xf18x6-0.elqhCm > div > div > div > div.AssetSearchView--results.collection--results > div.Blockreact__Block-sc-1xf18x6-0.fbumkB > div > p',
+  supply: '#main > div > div > div.Blockreact__Block-sc-1xf18x6-0.elqhCm > div > div > div > div.AssetSearchView--results.collection--results > div.Blockreact__Block-sc-1xf18x6-0.Flexreact__Flex-sc-1twd32i-0.SpaceBetweenreact__SpaceBetween-sc-jjxyhg-0.jffCaG.jYqxGr.gJwgfT > div > div > p',
 }
 let dunkGenesis = {
   floorPrice: 0,
