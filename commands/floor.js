@@ -11,7 +11,7 @@ module.exports = {
     const data = JSON.parse(fs.readFileSync('./commands/data.json'));
 
     const dunk = valuesHandler(data.dunkGenesis.floorPrice.toFixed(2), 4);
-    const lastUpdate = data.lastUpdate.toString().slice(0, 10);
+    const lastUpdate = data.lastSuccessfullUpdate.toString().slice(0, 10);
     const mnlth = valuesHandler(data.mnlth.floorPrice.toFixed(2), 4);
     const mnlth2 = valuesHandler(data.mnlth2.floorPrice.toFixed(2), );
     const vials = valuesHandler(data.skinVial.floorPrice.toFixed(2), 4);
@@ -23,7 +23,7 @@ module.exports = {
       `| FLOOR PRICE |  ${mnlth} |   ${mnlth2} | ${dunk} |  ${vials} |\n` +
       '-----------------------------------------------\n' +
       '```' +
-      `Last update: <t:${lastUpdate}:R>`
+      `Last successfull update: <t:${lastUpdate}:R>`
     );
   }
 };

@@ -34,7 +34,7 @@ module.exports = {
       alien: valuesHandler(traits.alien.floorPrice.toFixed(2), 6),
       total: valuesHandler(data.dunkGenesis.floorPrice.toFixed(2),6),
     };
-    const lastUpdate = data.lastUpdate.toString().slice(0, 10);
+    const lastUpdate = data.lastSuccessfullUpdate.toString().slice(0, 10);
     const supply = {
       human: valuesHandler(traits.human.supply, 6),
       robot: valuesHandler(traits.robot.supply, 6),
@@ -56,7 +56,7 @@ module.exports = {
       `| FLOOR PRICE  |${floor.human} |${floor.robot} |${floor.demon} |${floor.angel} |  ${floor.reptile} | ${floor.undead} |   ${floor.murakami} |${floor.alien} |\n` +
       ' ------------------------------------------------------------------------------------\n' +
       '```' +
-      `Last update: <t:${lastUpdate}:R>`
+      `Last successfull update: <t:${lastUpdate}:R>`
     );
   }
 };

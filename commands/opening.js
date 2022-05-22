@@ -36,7 +36,7 @@ module.exports = {
       murakami: valuesHandler((noVialDiff + vials.murakami.floorPrice).toFixed(2), 6),
       alien: valuesHandler((noVialDiff + vials.alien.floorPrice).toFixed(2), 6),
     };
-    const lastUpdate = data.lastUpdate.toString().slice(0, 10);
+    const lastUpdate = data.lastSuccessfullUpdate.toString().slice(0, 10);
     const maxLoss = (noVialDiff + vials.human.floorPrice).toFixed(2);
     const maxLossPercent = ((maxLoss / data.mnlth.floorPrice) * 100).toFixed(2);
     const minValueObtained = (noVialValue + vials.human.floorPrice).toFixed(2);
@@ -77,7 +77,7 @@ module.exports = {
       `Minimum value obtained: ${minValueObtained} ETH\n` +
       `Maximum value loss: ${maxLoss} ETH (${maxLossPercent}%)\n` +
       '```' +
-      `Last update: <t:${lastUpdate}:R>`
+      `Last successfull update: <t:${lastUpdate}:R>`
     );
   }
 };

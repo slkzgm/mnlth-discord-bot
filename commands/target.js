@@ -21,7 +21,7 @@ module.exports = {
       murakami: valuesHandler(vials.murakami.floorPrice.toFixed(2), 6),
       alien: valuesHandler(vials.alien.floorPrice.toFixed(2), 6)
     };
-    const lastUpdate = data.lastUpdate.toString().slice(0, 10);
+    const lastUpdate = data.lastSuccessfullUpdate.toString().slice(0, 10);
 
     await interaction.reply('Collections distribution target:\n' +
       '```\n' +
@@ -32,7 +32,7 @@ module.exports = {
       `| FLOOR PRICE  |${floor.human} |${floor.robot} |${floor.demon} |${floor.angel} |  ${floor.reptile} | ${floor.undead} |   ${floor.murakami} |${floor.alien} |\n` +
       ' ------------------------------------------------------------------------------------\n' +
       '```' +
-      `Last update: <t:${lastUpdate}:R>`
+      `Last successfull update: <t:${lastUpdate}:R>`
     );
   }
 };

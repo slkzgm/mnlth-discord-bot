@@ -131,6 +131,7 @@ let skinVial = {
   }
 };
 let timeout = 30000;
+let errors = 0;
 
 const retrieveSupply = async (page) => {
   return await page.$eval(selectors.supply, e =>
@@ -155,7 +156,10 @@ const retrieveEquippedDunk = async (page) => {
     await page.goto('https://opensea.io/collection/rtfkt-nike-cryptokicks?search[sortAscending]=true&search[sortBy]=PRICE&search[stringTraits][0][name]=VIAL&search[stringTraits][0][values][0]=EQUIPPED');
     await page.waitForSelector(selectors.floorPrice, {timeout});
     dunkGenesis.equippedSupply = await retrieveSupply(page);
-  } catch (err) {console.log('Error while tryna access equipped dunks data.')}
+  } catch (err) {
+    console.log('Error while tryna access equipped dunks data.')
+    errors += 1;
+  }
 }
 
 const retrieveTraitsData = async (page, selector, data) => {
@@ -180,7 +184,10 @@ const retrieveMnlthData = async (browser) => {
     await page.waitForSelector(selectors.floorPrice, {timeout});
     mnlth.floorPrice = await page.$eval(selectors.floorPrice, e => parseFloat(e.textContent));
     page.close();
-  } catch (err) {console.log('Error while trying to access MNLTH data.')}
+  } catch (err) {
+    console.log('Error while trying to access MNLTH data.')
+    errors += 1;
+  }
 }
 
 const retrieveMnlth2Data = async (browser) => {
@@ -193,7 +200,10 @@ const retrieveMnlth2Data = async (browser) => {
     await page.waitForSelector(selectors.floorPrice, {timeout});
     mnlth2.floorPrice = await page.$eval(selectors.floorPrice, e => parseFloat(e.textContent));
     page.close();
-  } catch (err) {console.log('Error while trying to access MNLTH2 data.')}
+  } catch (err) {
+    console.log('Error while trying to access MNLTH2 data.')
+    errors += 1;
+  }
 }
 
 const retrieveDunkGenesisData = async (browser) => {
@@ -219,7 +229,10 @@ const retrieveDunkGenesisData = async (browser) => {
     await retrieveTraitsData(page, selectors.dunkGenesis.alienBox, dunkGenesis.traits.alien);
     await retrieveEquippedDunk(page);
     page.close();
-  } catch (err) {console.log('Error while trying to access Dunk Genesis data.')}
+  } catch (err) {
+    console.log('Error while trying to access Dunk Genesis data.')
+    errors += 1;
+  }
 }
 
 const retrieveSkinVialData = async (browser) => {
@@ -243,7 +256,10 @@ const retrieveSkinVialData = async (browser) => {
     await retrieveTraitsData(page, selectors.skinVial.murakamiBox, skinVial.traits.murakami);
     await retrieveTraitsData(page, selectors.skinVial.alienBox, skinVial.traits.alien);
     page.close();
-  } catch (err) {console.log('Error while trying to access Skin Vials data.')}
+  } catch (err) {
+    console.log('Error while trying to access Skin Vials data.')
+    errors += 1;
+  }
 }
 
 const retrieveData = async () => {
@@ -252,7 +268,14 @@ const retrieveData = async () => {
   const browser = await puppeteer.launch({
     headless: true
   });
+  let data = {};
 
+  if (fs.existsSync('./commands/data.json'))
+    data = JSON.parse(fs.readFileSync('./commands/data.json'));
+  else
+    data.lastSuccessfullUpdate = 0;
+
+  errors = 0;
   await Promise.all([
     retrieveMnlthData(browser),
     retrieveMnlth2Data(browser),
@@ -267,7 +290,8 @@ const retrieveData = async () => {
     mnlth2,
     skinVial,
     dunkGenesis,
-    lastUpdate: Date.now()
+    lastUpdate: Date.now(),
+    lastSuccessfullUpdate: errors >= 1 ? data.lastSuccessfullUpdate : Date.now()
   });
 }
 

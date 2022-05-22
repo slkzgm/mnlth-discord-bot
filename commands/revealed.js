@@ -46,7 +46,7 @@ module.exports = {
       alien: valuesHandler(vials.alien.floorPrice.toFixed(2), 6),
       total: valuesHandler(data.skinVial.floorPrice.toFixed(2), 6)
     };
-    const lastUpdate = data.lastUpdate.toString().slice(0, 10);
+    const lastUpdate = data.lastSuccessfullUpdate.toString().slice(0, 10);
     const supply = {
       human: valuesHandler(revealedSupply.human, 6),
       robot: valuesHandler(revealedSupply.robot, 6),
@@ -68,7 +68,7 @@ module.exports = {
       `| FLOOR PRICE  |${floorPrice.human} |${floorPrice.robot} |${floorPrice.demon} |${floorPrice.angel} |  ${floorPrice.reptile} | ${floorPrice.undead} |   ${floorPrice.murakami} |${floorPrice.alien} |\n` +
       ' ------------------------------------------------------------------------------------\n' +
       '```' +
-      `Last update: <t:${lastUpdate}:R>`
+      `Last successfull update: <t:${lastUpdate}:R>`
     );
   }
 };

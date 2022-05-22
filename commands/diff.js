@@ -34,7 +34,7 @@ module.exports = {
       total: revealedSupply.total
     };
 
-    const lastUpdate = data.lastUpdate.toString().slice(0, 10);
+    const lastUpdate = data.lastSuccessfullUpdate.toString().slice(0, 10);
     const revealed = {
       human: valuesHandler(revealedSupply.human, 6),
       robot: valuesHandler(revealedSupply.robot, 6),
@@ -88,7 +88,7 @@ module.exports = {
       `| SUPPLY DIFF. % |${supplyDiffPercent.human} |${supplyDiffPercent.robot} |${supplyDiffPercent.demon} |${supplyDiffPercent.angel} |  ${supplyDiffPercent.reptile} | ${supplyDiffPercent.undead} |   ${supplyDiffPercent.murakami} |${supplyDiffPercent.alien} |\n` +
       ' --------------------------------------------------------------------------------------\n' +
       '```' +
-      `Last update: <t:${lastUpdate}:R>`
+      `Last successfull update: <t:${lastUpdate}:R>`
     );
   }
 };
