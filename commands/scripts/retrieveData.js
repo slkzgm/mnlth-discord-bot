@@ -5,9 +5,6 @@ const puppeteer = require('puppeteer-extra');
 const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 
 const selectors = {
-  buyNow: '#Buy\\ Now',
-  firstListingPrice: '#main > div > div > div.sc-1xf18x6-0.sc-z0wxa3-0.gczeyg.hWJuuu > div > div.sc-1po1rbf-6.bUKivE > div.sc-1xf18x6-0.bozbIq.AssetSearchView--main > div.AssetSearchView--results.collection--results.AssetSearchView--results--phoenix > div.sc-1xf18x6-0.hDbqle.AssetsSearchView--assets > div.fresnel-container.fresnel-greaterThanOrEqual-sm > div > div > div:nth-child(1) > div > article > a > div.sc-1xf18x6-0.sc-1twd32i-0.sc-jjxyhg-0.sc-nedjig-0.bOMAiG.kKpYwv.gakOkv.eVithh > div > div.sc-1xf18x6-0.sc-1twd32i-0.sc-1wwz3hp-0.iafynW.kKpYwv.kuGBEl > div.AssetCardFooter--price > div > div.sc-7qr9y8-0.iUvoJs.Price--amount',
-  floorPrice: '#main > div > div > div.sc-1xf18x6-0.sc-z0wxa3-0.gczeyg.hWJuuu > div > div.sc-1xf18x6-0.hDbqle > div > div.fresnel-container.fresnel-greaterThanOrEqual-md > div > div:nth-child(6) > a > div > span.sc-1xf18x6-0.sc-1w94ul3-0.sc-tbkx81-0.hDbqle.fJzOgY.styledPhoenixText > div',
   box: {
     vialBoxDunk: '#Header\\ react-aria-57',
     equippedBox: '#EQUIPPED',
@@ -22,6 +19,10 @@ const selectors = {
     murakamiBox: '#MURAKAMI',
     alienBox: '#ALIEN'
   },
+  buyNow: '#Buy\\ Now',
+  firstListingPrice: '#main > div > div > div.sc-1xf18x6-0.sc-z0wxa3-0.gczeyg.hWJuuu > div > div.sc-1po1rbf-6.bUKivE > div.sc-1xf18x6-0.bozbIq.AssetSearchView--main > div.AssetSearchView--results.collection--results.AssetSearchView--results--phoenix > div.sc-1xf18x6-0.hDbqle.AssetsSearchView--assets > div.fresnel-container.fresnel-greaterThanOrEqual-sm > div > div > div:nth-child(1) > div > article > a > div.sc-1xf18x6-0.sc-1twd32i-0.sc-jjxyhg-0.sc-nedjig-0.bOMAiG.kKpYwv.gakOkv.eVithh > div > div.sc-1xf18x6-0.sc-1twd32i-0.sc-1wwz3hp-0.iafynW.kKpYwv.kuGBEl > div.AssetCardFooter--price > div > div.sc-7qr9y8-0.iUvoJs.Price--amount',
+  floorPrice: '#main > div > div > div.sc-1xf18x6-0.sc-z0wxa3-0.gczeyg.hWJuuu > div > div.sc-1xf18x6-0.hDbqle > div > div.fresnel-container.fresnel-greaterThanOrEqual-md > div > div:nth-child(6) > a > div > span.sc-1xf18x6-0.sc-1w94ul3-0.sc-tbkx81-0.hDbqle.fJzOgY.styledPhoenixText > div',
+  noItems: '#main > div > div > div.sc-1xf18x6-0.sc-z0wxa3-0.gczeyg.hWJuuu > div > div.sc-1po1rbf-6.bUKivE > div.sc-1xf18x6-0.bozbIq.AssetSearchView--main > div.AssetSearchView--results.collection--results.AssetSearchView--results--phoenix > div.sc-ixw4tc-0.kyBdWA',
   supply: '#main > div > div > div.sc-1xf18x6-0.sc-z0wxa3-0.gczeyg.hWJuuu > div > div.sc-1po1rbf-6.bUKivE > div.sc-1xf18x6-0.bozbIq.AssetSearchView--main > div.AssetSearchView--results.collection--results.AssetSearchView--results--phoenix > div.fresnel-container.fresnel-greaterThanOrEqual-md > div > p',
 }
 let dunkGenesis = {
@@ -138,8 +139,12 @@ const retrieveFirstListingPrice = async (page) => {
 }
 
 const toClick = async (page, selector) => {
-  await page.click(selector);
-  await page.waitForSelector(selectors.firstListingPrice, {timeout});
+  try {
+    await page.click(selector);
+    await page.waitForSelector(selectors.firstListingPrice, {timeout});
+  } catch (e) {
+    await page.waitForSelector(selectors.noItems, {timeout});
+  }
 }
 
 const retrieveEquippedDunk = async (page) => {
@@ -155,8 +160,11 @@ const retrieveTraitsData = async (page, selector, data) => {
     await toClick(page, selector);
     data.supply = await retrieveSupply(page);
     await toClick(page, selectors.buyNow);
-    data.floorPrice = await retrieveFirstListingPrice(page);
     data.supplyListed = await retrieveSupply(page);
+    if (data.supplyListed > 0)
+      data.floorPrice = await retrieveFirstListingPrice(page);
+    else
+      data.floorPrice = 0;
     await toClick(page, selector);
     await toClick(page, selectors.buyNow);
   } catch (err) {console.log(`selector: ${selector} not found.`)}
