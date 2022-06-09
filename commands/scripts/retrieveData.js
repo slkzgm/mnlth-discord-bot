@@ -20,10 +20,10 @@ const selectors = {
     alienBox: '#ALIEN'
   },
   buyNow: '#Buy_Now > div > span > input',
-  firstListingPrice: '#main > div > div > div.sc-1xf18x6-0.sc-z0wxa3-0.gczeyg.hWJuuu > div > div.sc-1po1rbf-6.bUKivE > div.sc-1xf18x6-0.bozbIq.AssetSearchView--main > div.AssetSearchView--results.collection--results.AssetSearchView--results--phoenix > div.sc-1xf18x6-0.hDbqle.AssetsSearchView--assets > div.fresnel-container.fresnel-greaterThanOrEqual-sm > div > div > div:nth-child(1) > div > article > a > div.sc-1xf18x6-0.sc-1twd32i-0.sc-jjxyhg-0.sc-nedjig-5.bOMAiG.kKpYwv.gakOkv.eAfDhQ > div > div.sc-1xf18x6-0.sc-1twd32i-0.sc-1wwz3hp-0.iafynW.kKpYwv.kuGBEl > div.AssetCardFooter--price > div > div.sc-7qr9y8-0.iUvoJs.Price--amount',
-  floorPrice: '#main > div > div > div.sc-1xf18x6-0.sc-z0wxa3-0.gczeyg.hWJuuu > div > div.sc-1xf18x6-0.hDbqle > div > div.fresnel-container.fresnel-greaterThanOrEqual-md > div > div:nth-child(6) > a > div > span.sc-1xf18x6-0.sc-1w94ul3-0.sc-tbkx81-0.hDbqle.fJzOgY.styledPhoenixText > div',
+  firstListingPrice: '#main > div > div > div.sc-1xf18x6-0.sc-z0wxa3-0.hnKAL.hWJuuu > div > div.sc-1po1rbf-6.bUKivE > div.sc-1xf18x6-0.cPWSa-d.AssetSearchView--main > div.AssetSearchView--results.collection--results.AssetSearchView--results--phoenix > div.sc-1xf18x6-0.haVRLx.AssetsSearchView--assets > div.fresnel-container.fresnel-greaterThanOrEqual-sm > div > div > div:nth-child(1) > div > article > a > div.sc-1xf18x6-0.sc-1twd32i-0.sc-jjxyhg-0.sc-nedjig-5.kAcptF.kKpYwv.gakOkv.eAfDhQ > div > div.sc-1xf18x6-0.sc-1twd32i-0.sc-1wwz3hp-0.eGajrB.kKpYwv.kuGBEl > div.AssetCardFooter--price > div > div.sc-7qr9y8-0.iUvoJs.Price--amount',
+  floorPrice: '#main > div > div > div.sc-1xf18x6-0.sc-z0wxa3-0.hnKAL.hWJuuu > div > div.sc-1xf18x6-0.haVRLx > div > div.fresnel-container.fresnel-greaterThanOrEqual-md > div > div:nth-child(6) > a > div > span.sc-1xf18x6-0.sc-1w94ul3-0.sc-tbkx81-0.haVRLx.fJzOgY.styledPhoenixText > div',
   noItems: '#main > div > div > div.sc-1xf18x6-0.sc-z0wxa3-0.gczeyg.hWJuuu > div > div.sc-1po1rbf-6.bUKivE > div.sc-1xf18x6-0.bozbIq.AssetSearchView--main > div.AssetSearchView--results.collection--results.AssetSearchView--results--phoenix > div.sc-ixw4tc-0.kyBdWA',
-  supply: '#main > div > div > div.sc-1xf18x6-0.sc-z0wxa3-0.gczeyg.hWJuuu > div > div.sc-1po1rbf-6.bUKivE > div.sc-1xf18x6-0.bozbIq.AssetSearchView--main > div.AssetSearchView--results.collection--results.AssetSearchView--results--phoenix > div.fresnel-container.fresnel-greaterThanOrEqual-md > div > p',
+  supply: '#main > div > div > div.sc-1xf18x6-0.sc-z0wxa3-0.hnKAL.hWJuuu > div > div.sc-1po1rbf-6.bUKivE > div.sc-1xf18x6-0.cPWSa-d.AssetSearchView--main > div.AssetSearchView--results.collection--results.AssetSearchView--results--phoenix > div.fresnel-container.fresnel-greaterThanOrEqual-md > div > p',
 }
 let dunkGenesis = {
   floorPrice: 0,
@@ -143,7 +143,8 @@ const toClick = async (page, selector) => {
     await page.click(selector);
     await page.waitForSelector(selectors.firstListingPrice, {timeout});
   } catch (e) {
-    await page.waitForSelector(selectors.noItems, {timeout});
+    console.log(`First listing not found for ${selector} on ${page.url} check for "no items"`);
+    await page.waitForSelector(selectors.noItems, {timeout: 10000});
   }
 }
 
