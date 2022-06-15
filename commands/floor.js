@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const fs = require('node:fs');
+const axios = require('axios');
 
 const { valuesHandler } = require("./utils/handlers");
 
@@ -8,7 +9,8 @@ module.exports = {
     .setName('floor')
     .setDescription('Replies with collections floor prices.'),
   async execute(interaction) {
-    const data = JSON.parse(fs.readFileSync('./commands/data.json'));
+    const response = await axios.get('https://slkzgm.tk/mnlth');
+    const data = response.data;
 
     const dunk = valuesHandler(data.dunkGenesis.floorPrice.toFixed(2), 4);
     const lastUpdate = data.lastSuccessfullUpdate.toString().slice(0, 10);

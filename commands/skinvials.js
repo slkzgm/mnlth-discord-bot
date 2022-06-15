@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const fs = require('node:fs');
+const axios = require('axios');
 
 const { valuesHandler } = require("./utils/handlers");
 
@@ -8,7 +9,8 @@ module.exports = {
     .setName('skinvials')
     .setDescription('Replies with Skin vials data.'),
   async execute(interaction) {
-    const data = JSON.parse(fs.readFileSync('./commands/data.json'));
+    const response = await axios.get('https://slkzgm.tk/mnlth');
+    const data = response.data;
     const traits = data.skinVial.traits;
 
     const floor = {

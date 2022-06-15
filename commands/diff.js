@@ -1,4 +1,5 @@
 const fs = require('node:fs');
+const axios = require('axios');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { valuesHandler } = require("./utils/handlers");
 
@@ -7,7 +8,8 @@ module.exports = {
     .setName('diff')
     .setDescription('Replies with differences between revealed and to be revealed data.'),
   async execute(interaction) {
-    const data = JSON.parse(fs.readFileSync('./commands/data.json'));
+    const response = await axios.get('https://slkzgm.tk/mnlth');
+    const data = response.data;
     const dunk = data.dunkGenesis.traits;
     const equippedSupply = data.dunkGenesis.equippedSupply;
     const vials = data.skinVial.traits;
