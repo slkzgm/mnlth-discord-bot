@@ -1,13 +1,13 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const fs = require('node:fs');
 const axios = require('axios');
+const { apiUrl } = require('../config.json');
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('debug')
     .setDescription('Replies with debugs information.'),
   async execute(interaction) {
-    const response = await axios.get('https://slkzgm.tk/mnlth');
+    const response = await axios.get(apiUrl);
     const data = response.data;
     const lastUpdate = data.lastUpdate.toString().slice(0, 10);
     const lastSuccessfullUpdate = data.lastSuccessfullUpdate.toString().slice(0, 10);

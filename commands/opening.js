@@ -1,15 +1,15 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const fs = require('node:fs');
 const axios = require('axios');
 
 const { valuesHandler } = require("./utils/handlers");
+const { apiUrl } = require('../config.json');
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('opening')
     .setDescription('Replies with live reveal rates data.'),
   async execute(interaction) {
-    const response = await axios.get('https://slkzgm.tk/mnlth');
+    const response = await axios.get(apiUrl);
     const data = response.data;
     const dunk = data.dunkGenesis.traits;
     const equippedSupply = data.dunkGenesis.equippedSupply;

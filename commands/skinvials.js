@@ -1,15 +1,15 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const fs = require('node:fs');
 const axios = require('axios');
 
 const { valuesHandler } = require("./utils/handlers");
+const { apiUrl } = require('../config.json');
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('skinvials')
     .setDescription('Replies with Skin vials data.'),
   async execute(interaction) {
-    const response = await axios.get('https://slkzgm.tk/mnlth');
+    const response = await axios.get(apiUrl);
     const data = response.data;
     const traits = data.skinVial.traits;
 
