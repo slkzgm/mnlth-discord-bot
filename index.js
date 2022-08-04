@@ -39,3 +39,4 @@ client.on('interactionCreate', async (interaction) => {
 // });
 
 client.login(token);
+client.user.setActivity('@ https://slkappz.com/', {type: "STREAMING"});
