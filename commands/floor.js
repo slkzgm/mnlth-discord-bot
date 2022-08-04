@@ -1,5 +1,4 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const fs = require('node:fs');
 const axios = require('axios');
 
 const { valuesHandler } = require("./utils/handlers");
@@ -13,7 +12,7 @@ module.exports = {
     const data = response.data;
 
     const dunk = valuesHandler(data.dunkGenesis.floorPrice.toFixed(2), 4);
-    const lastUpdate = data.lastSuccessfullUpdate.toString().slice(0, 10);
+    const lastUpdate = data.lastUpdate.toString().slice(0, 10);
     const mnlth = valuesHandler(data.mnlth.floorPrice.toFixed(2), 4);
     const mnlth2 = valuesHandler(data.mnlth2.floorPrice.toFixed(2), );
     const vials = valuesHandler(data.skinVial.floorPrice.toFixed(2), 4);

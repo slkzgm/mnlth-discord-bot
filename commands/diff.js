@@ -1,4 +1,3 @@
-const fs = require('node:fs');
 const axios = require('axios');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { valuesHandler } = require("./utils/handlers");
@@ -36,7 +35,7 @@ module.exports = {
       total: revealedSupply.total
     };
 
-    const lastUpdate = data.lastSuccessfullUpdate.toString().slice(0, 10);
+    const lastUpdate = data.lastUpdate.toString().slice(0, 10);
     const revealed = {
       human: valuesHandler(revealedSupply.human, 6),
       robot: valuesHandler(revealedSupply.robot, 6),

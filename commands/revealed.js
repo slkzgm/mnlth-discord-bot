@@ -1,5 +1,4 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const fs = require('node:fs');
 const axios = require('axios');
 
 const { valuesHandler } = require("./utils/handlers");
@@ -48,7 +47,7 @@ module.exports = {
       alien: valuesHandler(vials.alien.floorPrice.toFixed(2), 6),
       total: valuesHandler(data.skinVial.floorPrice.toFixed(2), 6)
     };
-    const lastUpdate = data.lastSuccessfullUpdate.toString().slice(0, 10);
+    const lastUpdate = data.lastUpdate.toString().slice(0, 10);
     const supply = {
       human: valuesHandler(revealedSupply.human, 6),
       robot: valuesHandler(revealedSupply.robot, 6),

@@ -1,5 +1,4 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const fs = require('node:fs');
 
 const { valuesHandler } = require("./utils/handlers");
 const axios = require("axios");
@@ -23,7 +22,7 @@ module.exports = {
       murakami: valuesHandler(vials.murakami.floorPrice.toFixed(2), 6),
       alien: valuesHandler(vials.alien.floorPrice.toFixed(2), 6)
     };
-    const lastUpdate = data.lastSuccessfullUpdate.toString().slice(0, 10);
+    const lastUpdate = data.lastUpdate.toString().slice(0, 10);
 
     await interaction.reply('Collections distribution target:\n' +
       '```\n' +

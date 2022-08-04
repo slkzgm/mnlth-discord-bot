@@ -1,5 +1,4 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const fs = require('node:fs');
 const axios = require('axios');
 
 const { valuesHandler } = require("./utils/handlers");
@@ -38,7 +37,7 @@ module.exports = {
       murakami: valuesHandler((noVialDiff + vials.murakami.floorPrice).toFixed(2), 6),
       alien: valuesHandler((noVialDiff + vials.alien.floorPrice).toFixed(2), 6),
     };
-    const lastUpdate = data.lastSuccessfullUpdate.toString().slice(0, 10);
+    const lastUpdate = data.lastUpdate.toString().slice(0, 10);
     const maxLoss = (noVialDiff + vials.human.floorPrice).toFixed(2);
     const maxLossPercent = ((maxLoss / data.mnlth.floorPrice) * 100).toFixed(2);
     const minValueObtained = (noVialValue + vials.human.floorPrice).toFixed(2);

@@ -1,5 +1,4 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const fs = require('node:fs');
 const axios = require('axios');
 
 const { valuesHandler } = require("./utils/handlers");
@@ -36,7 +35,7 @@ module.exports = {
       murakami: valuesHandler(vials.murakami.floorPrice.toFixed(2), 6),
       alien: valuesHandler(vials.alien.floorPrice.toFixed(2), 6)
     };
-    const lastUpdate = data.lastSuccessfullUpdate.toString().slice(0, 10);
+    const lastUpdate = data.lastUpdate.toString().slice(0, 10);
     const probabilities = {
       human: valuesHandler(((supplyLeft.human / supplyLeft.total) * 100).toFixed(2), 6),
       robot: valuesHandler(((supplyLeft.robot / supplyLeft.total) * 100).toFixed(2), 6),
