@@ -33,9 +33,9 @@ client.on('interactionCreate', async (interaction) => {
   }
 });
 
-client.on('messageCreate', async (msg) => {
-  if (msg.content.toLowerCase() === 'gm') await msg.reply(`GM ${msg.author.tag}!`);
-  if (msg.content.toLowerCase() === 'gn') await msg.reply(`GN ${msg.author.tag}!`);
-});
+// client.on('messageCreate', async (msg) => {
+//   if (msg.content.toLowerCase() === 'gm') await msg.reply(`GM ${msg.author.tag}!`);
+//   if (msg.content.toLowerCase() === 'gn') await msg.reply(`GN ${msg.author.tag}!`);
+// });
 
 client.login(token);

@@ -2,13 +2,14 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const axios = require('axios');
 
 const { valuesHandler } = require("./utils/handlers");
+const { apiUrl } = require('../config.json');
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('dunk')
     .setDescription('Replies with vials revealed equipped on Nike Dunk genesis data.'),
   async execute(interaction) {
-    const response = await axios.get('https://slkzgm.tk/mnlth');
+    const response = await axios.get(apiUrl);
     const data = response.data;
     const equippedSupply = data.dunkGenesis.equippedSupply;
     const traits = data.dunkGenesis.traits;
