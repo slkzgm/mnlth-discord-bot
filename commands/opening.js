@@ -1,70 +1,35 @@
-const { SlashCommandBuilder } = require('@discordjs/builders');
 const axios = require('axios');
-
-const { valuesHandler } = require("./utils/handlers");
 const { apiUrl } = require('../config.json');
+const { SlashCommandBuilder } = require('@discordjs/builders');
+const { valuesHandler } = require("./utils/handlers");
+
+const commandName = 'opening';
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName('opening')
+    .setName(commandName)
     .setDescription('Replies with live reveal rates data.'),
   async execute(interaction) {
-    const response = await axios.get(apiUrl);
-    const data = response.data;
-    const dunk = data.dunkGenesis.traits;
-    const equippedSupply = data.dunkGenesis.equippedSupply;
-    const vials = data.skinVial.traits;
-    const noVialValue = (data.mnlth2.floorPrice + data.dunkGenesis.floorPrice);
-    const noVialDiff = noVialValue - data.mnlth.floorPrice;
-    const supplyLeft = {
-      human: 10012 - (vials.human.supply + dunk.human.supply),
-      robot: 5990 - (vials.robot.supply + dunk.robot.supply),
-      demon: 1750 - (vials.demon.supply + dunk.demon.supply),
-      angel: 1750 - (vials.angel.supply + dunk.angel.supply),
-      reptile: 250 - (vials.reptile.supply + dunk.reptile.supply),
-      undead: 120 - (vials.undead.supply + dunk.undead.supply),
-      murakami: 98 - (vials.murakami.supply + dunk.murakami.supply),
-      alien: 30 - (vials.alien.supply + dunk.alien.supply),
-      total: 20000 - (data.skinVial.supply + equippedSupply)
-    }
+    const data = (await axios.get(apiUrl + commandName)).data;
+    const lastUpdate = (await axios.get(apiUrl)).data.lastUpdate.toString().slice(0, 10);
+    let additionnalsInfo = {};
+    const diff = {};
+    const probabilities = {};
+    const supply = {};
 
-    const diff = {
-      human: valuesHandler((noVialDiff + vials.human.floorPrice).toFixed(2), 6),
-      robot: valuesHandler((noVialDiff + vials.robot.floorPrice).toFixed(2), 6),
-      demon: valuesHandler((noVialDiff + vials.demon.floorPrice).toFixed(2), 6),
-      angel: valuesHandler((noVialDiff + vials.angel.floorPrice).toFixed(2), 6),
-      reptile: valuesHandler((noVialDiff + vials.reptile.floorPrice).toFixed(2), 6),
-      undead: valuesHandler((noVialDiff + vials.undead.floorPrice).toFixed(2), 6),
-      murakami: valuesHandler((noVialDiff + vials.murakami.floorPrice).toFixed(2), 6),
-      alien: valuesHandler((noVialDiff + vials.alien.floorPrice).toFixed(2), 6),
-    };
-    const lastUpdate = data.lastUpdate.toString().slice(0, 10);
-    const maxLoss = (noVialDiff + vials.human.floorPrice).toFixed(2);
-    const maxLossPercent = ((maxLoss / data.mnlth.floorPrice) * 100).toFixed(2);
-    const minValueObtained = (noVialValue + vials.human.floorPrice).toFixed(2);
-    const probabilities = {
-      human: valuesHandler(((supplyLeft.human / supplyLeft.total) * 100).toFixed(2), 6),
-      robot: valuesHandler(((supplyLeft.robot / supplyLeft.total) * 100).toFixed(2), 6),
-      demon: valuesHandler(((supplyLeft.demon / supplyLeft.total) * 100).toFixed(2), 6),
-      angel: valuesHandler(((supplyLeft.angel / supplyLeft.total) * 100).toFixed(2), 6),
-      reptile: valuesHandler(((supplyLeft.reptile / supplyLeft.total) * 100).toFixed(2), 6),
-      undead: valuesHandler(((supplyLeft.undead / supplyLeft.total) * 100).toFixed(2), 6),
-      murakami: valuesHandler(((supplyLeft.murakami / supplyLeft.total) * 100).toFixed(2), 6),
-      alien: valuesHandler(((supplyLeft.alien / supplyLeft.total) * 100).toFixed(2), 6),
-      total: valuesHandler(((supplyLeft.total / supplyLeft.total) * 100).toFixed(1), 6)
-    };
-    const supply = {
-      human: valuesHandler(supplyLeft.human, 6),
-      robot: valuesHandler(supplyLeft.robot, 6),
-      demon: valuesHandler(supplyLeft.demon, 6),
-      angel: valuesHandler(supplyLeft.angel, 6),
-      reptile: valuesHandler(supplyLeft.reptile, 6),
-      undead: valuesHandler(supplyLeft.undead, 6),
-      murakami: valuesHandler(supplyLeft.murakami, 6),
-      alien: valuesHandler(supplyLeft.alien, 6),
-      total: valuesHandler(supplyLeft.total, 6)
-    };
-
+    data.map(dna => {
+      if (dna.dna) {
+        supply[dna.dna] = valuesHandler(dna.supply, 6);
+        if (dna.dna !== 'total') {
+          diff[dna.dna] = valuesHandler(dna.valueDiff.toFixed(2), 6);
+          probabilities[dna.dna] = valuesHandler(dna.probability.toFixed(2), 6);
+        }
+      } else {
+        additionnalsInfo.maxLoss = dna.maxLoss.toFixed(2);
+        additionnalsInfo.maxLossPercent = dna.maxLossPercent.toFixed(2);
+        additionnalsInfo.minValue = dna.minValue.toFixed(2);
+      }
+    });
     await interaction.reply('Actual reveal rates:\n' +
       '```\n' +
       ' -----------------------------------------------------------------------------------\n' +
@@ -76,8 +41,8 @@ module.exports = {
       '```' +
       'Worst case scenario:\n' +
       '```\n' +
-      `Minimum value obtained: ${minValueObtained} ETH\n` +
-      `Maximum value loss: ${maxLoss} ETH (${maxLossPercent}%)\n` +
+      `Minimum value obtained: ${additionnalsInfo.minValue} ETH\n` +
+      `Maximum value loss: ${additionnalsInfo.maxLoss} ETH (-${additionnalsInfo.maxLossPercent}%)\n` +
       '```' +
       `Last successfull update: <t:${lastUpdate}:R>`
     );

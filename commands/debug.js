@@ -1,6 +1,6 @@
-const { SlashCommandBuilder } = require('@discordjs/builders');
 const axios = require('axios');
 const { apiUrl } = require('../config.json');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
   data: new SlashCommandBuilder()

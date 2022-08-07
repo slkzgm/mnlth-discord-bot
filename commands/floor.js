@@ -1,23 +1,35 @@
-const { SlashCommandBuilder } = require('@discordjs/builders');
 const axios = require('axios');
-
-const { valuesHandler } = require("./utils/handlers");
 const { apiUrl } = require('../config.json');
+const { SlashCommandBuilder } = require('@discordjs/builders');
+const { valuesHandler } = require("./utils/handlers");
+
+const commandName = 'floor';
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName('floor')
+    .setName(commandName)
     .setDescription('Replies with collections floor prices.'),
   async execute(interaction) {
-    const response = await axios.get(apiUrl);
-    const data = response.data;
+    const data = (await axios.get(apiUrl + commandName)).data;
+    const lastUpdate = (await axios.get(apiUrl)).data.lastUpdate.toString().slice(0, 10);
+    let mnlth, mnlth2, dunk, vials;
 
-    const dunk = valuesHandler(data.dunkGenesis.floorPrice.toFixed(2), 4);
-    const lastUpdate = data.lastUpdate.toString().slice(0, 10);
-    const mnlth = valuesHandler(data.mnlth.floorPrice.toFixed(2), 4);
-    const mnlth2 = valuesHandler(data.mnlth2.floorPrice.toFixed(2), );
-    const vials = valuesHandler(data.skinVial.floorPrice.toFixed(2), 4);
-
+    data.map(collection => {
+      switch (collection.collection) {
+        case 'mnlth':
+          mnlth = valuesHandler(collection.floorPrice.toFixed(2), 4);
+          break;
+        case 'mnlth2':
+          mnlth2 = valuesHandler(collection.floorPrice.toFixed(2), 4);
+          break;
+        case 'dunk':
+          dunk = valuesHandler(collection.floorPrice.toFixed(2), 4);
+          break;
+        case 'vials':
+          vials = valuesHandler(collection.floorPrice.toFixed(2), 4);
+          break;
+      }
+    });
     await interaction.reply('Collections floor prices:\n' +
       '```\n' +
       '-----------------------------------------------\n' +

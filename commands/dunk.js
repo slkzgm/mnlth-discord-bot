@@ -1,54 +1,28 @@
-const { SlashCommandBuilder } = require('@discordjs/builders');
 const axios = require('axios');
-
-const { valuesHandler } = require("./utils/handlers");
 const { apiUrl } = require('../config.json');
+const { SlashCommandBuilder } = require('@discordjs/builders');
+const { valuesHandler } = require("./utils/handlers");
+
+const commandName = 'dunk';
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName('dunk')
+    .setName(commandName)
     .setDescription('Replies with vials revealed equipped on Nike Dunk genesis data.'),
   async execute(interaction) {
-    const response = await axios.get(apiUrl);
-    const data = response.data;
-    const equippedSupply = data.dunkGenesis.equippedSupply;
-    const traits = data.dunkGenesis.traits;
+    const data = (await axios.get(apiUrl + commandName)).data;
+    const lastUpdate = (await axios.get(apiUrl)).data.lastUpdate.toString().slice(0, 10);
+    const distribution = {};
+    const floor = {};
+    const supply = {};
 
-    const distribution = {
-      human: valuesHandler(((traits.human.supply / equippedSupply) * 100).toFixed(2), 6),
-      robot: valuesHandler(((traits.robot.supply / equippedSupply) * 100).toFixed(2), 6),
-      demon: valuesHandler(((traits.demon.supply / equippedSupply) * 100).toFixed(2), 6),
-      angel: valuesHandler(((traits.angel.supply / equippedSupply) * 100).toFixed(2), 6),
-      reptile: valuesHandler(((traits.reptile.supply / equippedSupply) * 100).toFixed(2), 6),
-      undead: valuesHandler(((traits.undead.supply / equippedSupply) * 100).toFixed(2), 6),
-      murakami: valuesHandler(((traits.murakami.supply / equippedSupply) * 100).toFixed(2), 6),
-      alien: valuesHandler(((traits.alien.supply / equippedSupply) * 100).toFixed(2), 6),
-      total: valuesHandler(((equippedSupply / equippedSupply) * 100).toFixed(1), 6)
-    };
-    const floor = {
-      human: valuesHandler(traits.human.floorPrice.toFixed(2), 6),
-      robot: valuesHandler(traits.robot.floorPrice.toFixed(2), 6),
-      demon: valuesHandler(traits.demon.floorPrice.toFixed(2), 6),
-      angel: valuesHandler(traits.angel.floorPrice.toFixed(2), 6),
-      reptile: valuesHandler(traits.reptile.floorPrice.toFixed(2), 6),
-      undead: valuesHandler(traits.undead.floorPrice.toFixed(2), 6),
-      murakami: valuesHandler(traits.murakami.floorPrice.toFixed(2), 6),
-      alien: valuesHandler(traits.alien.floorPrice.toFixed(2), 6),
-      total: valuesHandler(data.dunkGenesis.floorPrice.toFixed(2),6),
-    };
-    const lastUpdate = data.lastUpdate.toString().slice(0, 10);
-    const supply = {
-      human: valuesHandler(traits.human.supply, 6),
-      robot: valuesHandler(traits.robot.supply, 6),
-      demon: valuesHandler(traits.demon.supply, 6),
-      angel: valuesHandler(traits.angel.supply, 6),
-      reptile: valuesHandler(traits.reptile.supply, 6),
-      undead: valuesHandler(traits.undead.supply, 6),
-      murakami: valuesHandler(traits.murakami.supply, 6),
-      alien: valuesHandler(traits.alien.supply, 6),
-      total: valuesHandler(equippedSupply,6),
-    };
-
+    data.map(dna => {
+      supply[dna.dna] = valuesHandler(dna.supply, 6);
+      if (dna.dna !== 'total') {
+        distribution[dna.dna] = valuesHandler(dna.distribution.toFixed(2), 6);
+        floor[dna.dna] = valuesHandler(dna.floorPrice.toFixed(2), 6);
+      }
+    });
     await interaction.reply('Revealed DNA equipped on Dunk Genesis:\n' +
       '```\n' +
       ' ------------------------------------------------------------------------------------\n' +

@@ -1,66 +1,28 @@
-const { SlashCommandBuilder } = require('@discordjs/builders');
 const axios = require('axios');
-
-const { valuesHandler } = require("./utils/handlers");
 const { apiUrl } = require('../config.json');
+const { SlashCommandBuilder } = require('@discordjs/builders');
+const { valuesHandler } = require("./utils/handlers");
+
+const commandName = 'revealed';
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName('revealed')
+    .setName(commandName)
     .setDescription('Replies with revealed data.'),
   async execute(interaction) {
-    const response = await axios.get(apiUrl);
-    const data = response.data;
-    const dunk = data.dunkGenesis.traits;
-    const equippedSupply = data.dunkGenesis.equippedSupply;
-    const vials = data.skinVial.traits;
-    const revealedSupply = {
-      human: vials.human.supply + dunk.human.supply,
-      robot: vials.robot.supply + dunk.robot.supply,
-      demon: vials.demon.supply + dunk.demon.supply,
-      angel: vials.angel.supply + dunk.angel.supply,
-      reptile: vials.reptile.supply + dunk.reptile.supply,
-      undead: vials.undead.supply + dunk.undead.supply,
-      murakami: vials.murakami.supply + dunk.murakami.supply,
-      alien: vials.alien.supply + dunk.alien.supply,
-      total: data.skinVial.supply + equippedSupply
-    };
+    const data = (await axios.get(apiUrl + commandName)).data;
+    const lastUpdate = (await axios.get(apiUrl)).data.lastUpdate.toString().slice(0, 10);
+    const distribution = {};
+    const floorPrice = {};
+    const supply = {};
 
-    const distribution = {
-      human: valuesHandler(((revealedSupply.human / revealedSupply.total) * 100).toFixed(2), 6),
-      robot: valuesHandler(((revealedSupply.robot / revealedSupply.total) * 100).toFixed(2), 6),
-      demon: valuesHandler(((revealedSupply.demon / revealedSupply.total) * 100).toFixed(2), 6),
-      angel: valuesHandler(((revealedSupply.angel / revealedSupply.total) * 100).toFixed(2), 6),
-      reptile: valuesHandler(((revealedSupply.reptile / revealedSupply.total) * 100).toFixed(2), 6),
-      undead: valuesHandler(((revealedSupply.undead / revealedSupply.total) * 100).toFixed(2), 6),
-      murakami: valuesHandler(((revealedSupply.murakami / revealedSupply.total) * 100).toFixed(2), 6),
-      alien: valuesHandler(((revealedSupply.alien / revealedSupply.total) * 100).toFixed(2), 6),
-      total: valuesHandler(((revealedSupply.total / revealedSupply.total) * 100).toFixed(1), 6)
-    };
-    const floorPrice = {
-      human: valuesHandler(vials.human.floorPrice.toFixed(2), 6),
-      robot: valuesHandler(vials.robot.floorPrice.toFixed(2), 6),
-      demon: valuesHandler(vials.demon.floorPrice.toFixed(2), 6),
-      angel: valuesHandler(vials.angel.floorPrice.toFixed(2), 6),
-      reptile: valuesHandler(vials.reptile.floorPrice.toFixed(2), 6),
-      undead: valuesHandler(vials.undead.floorPrice.toFixed(2), 6),
-      murakami: valuesHandler(vials.murakami.floorPrice.toFixed(2), 6),
-      alien: valuesHandler(vials.alien.floorPrice.toFixed(2), 6),
-      total: valuesHandler(data.skinVial.floorPrice.toFixed(2), 6)
-    };
-    const lastUpdate = data.lastUpdate.toString().slice(0, 10);
-    const supply = {
-      human: valuesHandler(revealedSupply.human, 6),
-      robot: valuesHandler(revealedSupply.robot, 6),
-      demon: valuesHandler(revealedSupply.demon, 6),
-      angel: valuesHandler(revealedSupply.angel, 6),
-      reptile: valuesHandler(revealedSupply.reptile, 6),
-      undead: valuesHandler(revealedSupply.undead, 6),
-      murakami: valuesHandler(revealedSupply.murakami, 6),
-      alien: valuesHandler(revealedSupply.alien, 6),
-      total: valuesHandler(revealedSupply.total, 6)
-    };
-
+    data.map(dna => {
+      supply[dna.dna] = valuesHandler(dna.supply, 6);
+      if (dna.dna !== 'total') {
+        distribution[dna.dna] = valuesHandler(dna.distribution.toFixed(2), 6);
+        floorPrice[dna.dna] = valuesHandler(dna.floorPrice.toFixed(2), 6);
+      }
+    });
     await interaction.reply('Total revealed supply:\n' +
       '```\n' +
       ' ------------------------------------------------------------------------------------\n' +
