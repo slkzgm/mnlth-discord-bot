@@ -1,7 +1,7 @@
 # mnlth-discord-bot
 A discord bot to get informed of live data of MNLTH reveal process
 
-This discord bot use a js script that scrap opensea every 5 minutes to retrieve data regarding MNLTH reveal process.
+This discord bot use a js script that scrap Opensea and 0xReservoir API every minute to retrieve data regarding MNLTH reveal process.
 It comes with commands that give various informations and analytics about the reveal process state live state like:
 - Actual revealed distribution
 - Collections floor price
@@ -12,9 +12,7 @@ It comes with commands that give various informations and analytics about the re
 
 You can add the mnlth-discord-bot to your server by using this link:
 
-- https://discord.com/api/oauth2/authorize?client_id=971530632826077265&permissions=0&scope=applications.commands%20bot
-
-
+- https://discord.com/api/oauth2/authorize?client_id=971530632826077265&permissions=0&scope=bot
 
 # Run it yourself:
 
@@ -26,14 +24,13 @@ You can also host the bot by yourself following these steps:
 
 3: Install dependencies: `npm install`
 
-4: run the node-cron at: `node /commands/scripts/retrieveData.json`
-
 5: Create your config.json file:
 
 ```json
 {
   "token": YOUR_TOKEN,
-  "clientId": YOUR_CLIENT_ID
+  "clientId": YOUR_CLIENT_ID,
+  "apiUrl": "https://www.slkzgm.com/mintvial/" // OR USE YOUR OWN API
 }
 ```
 
