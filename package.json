@@ -17,9 +17,6 @@
     "discord.js": "^13.6.0",
     "fs": "0.0.1-security",
     "node-cron": "^3.0.0",
-    "puppeteer": "^13.7.0",
-    "puppeteer-extra": "^3.2.3",
-    "puppeteer-extra-plugin-stealth": "^2.9.0"
   },
   "devDependencies": {
     "@types/node": "^17.0.31"
