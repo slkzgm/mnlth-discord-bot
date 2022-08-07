@@ -8,7 +8,7 @@ const commandName = 'revealed';
 module.exports = {
   data: new SlashCommandBuilder()
     .setName(commandName)
-    .setDescription('Replies with revealed data.'),
+    .setDescription('Replies with revealed supply data.'),
   async execute(interaction) {
     const data = (await axios.get(apiUrl + commandName)).data;
     const lastUpdate = (await axios.get(apiUrl)).data.lastUpdate.toString().slice(0, 10);

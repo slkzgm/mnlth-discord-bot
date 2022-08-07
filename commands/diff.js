@@ -8,7 +8,7 @@ const commandName = 'diff';
 module.exports = {
   data: new SlashCommandBuilder()
     .setName(commandName)
-    .setDescription('Replies with differences between revealed and to be revealed data.'),
+    .setDescription('Replies with differences between revealed and to be revealed supply.'),
   async execute(interaction) {
     const data = (await axios.get(apiUrl + commandName)).data;
     const lastUpdate = (await axios.get(apiUrl)).data.lastUpdate.toString().slice(0, 10);
