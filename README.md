@@ -1,7 +1,7 @@
 # mnlth-discord-bot
 A discord bot to get informed of live data of MNLTH reveal process
 
-This discord bot use the slkzgm.com API to retrieve and display data regarding MNLTH reveal process.
+This discord bot use the https://slkzgm.com API to retrieve and display data regarding MNLTH reveal process.
 It comes with commands that give various informations and analytics about the reveal process state live state like:
 - Actual revealed distribution
 - Collections floor price
