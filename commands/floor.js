@@ -11,7 +11,6 @@ module.exports = {
     .setDescription('Replies with collections floor prices.'),
   async execute(interaction) {
     const data = (await axios.get(apiUrl + commandName)).data;
-    const lastUpdate = (await axios.get(apiUrl)).data.lastUpdate.toString().slice(0, 10);
     let mnlth, mnlth2, dunk, vials;
 
     data.map(collection => {
@@ -36,8 +35,7 @@ module.exports = {
       '| COLLECTION  | MNLTH | MNLTH2 | DUNK | VIALS |\n' +
       `| FLOOR PRICE |  ${mnlth} |   ${mnlth2} | ${dunk} |  ${vials} |\n` +
       '-----------------------------------------------\n' +
-      '```' +
-      `Last successfull update: <t:${lastUpdate}:R>`
+      '```'
     );
   }
 };

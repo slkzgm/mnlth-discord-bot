@@ -11,7 +11,6 @@ module.exports = {
     .setDescription('Replies with supply left data.'),
   async execute(interaction) {
     const data = (await axios.get(apiUrl + commandName)).data;
-    const lastUpdate = (await axios.get(apiUrl)).data.lastUpdate.toString().slice(0, 10);
     const floor = {};
     const probabilities = {};
     const supply = {}
@@ -31,8 +30,7 @@ module.exports = {
       `| PROBABILITY |${probabilities.human} |${probabilities.robot} |${probabilities.demon} |${probabilities.angel} |  ${probabilities.reptile} | ${probabilities.undead} |   ${probabilities.murakami} |${probabilities.alien} |\n` +
       `| FLOOR PRICE |${floor.human} |${floor.robot} |${floor.demon} |${floor.angel} |  ${floor.reptile} | ${floor.undead} |   ${floor.murakami} |${floor.alien} |\n` +
       ' ------------------------------------------------------------------------------------\n' +
-      '```' +
-      `Last successfull update: <t:${lastUpdate}:R>`
+      '```'
     );
   }
 };

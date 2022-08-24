@@ -9,10 +9,8 @@ module.exports = {
   async execute(interaction) {
     const response = await axios.get(apiUrl);
     const data = response.data;
-    const lastUpdate = data.lastUpdate.toString().slice(0, 10);
 
     await interaction.reply(
-      `Last update: ${data.lastUpdate} (<t:${lastUpdate}:R>)\n` +
       'data.json stringify: `' + `${JSON.stringify(data)}` + '`'
     );
   }

@@ -11,7 +11,6 @@ module.exports = {
     .setDescription('Replies with live reveal rates data.'),
   async execute(interaction) {
     const data = (await axios.get(apiUrl + commandName)).data;
-    const lastUpdate = (await axios.get(apiUrl)).data.lastUpdate.toString().slice(0, 10);
     let additionnalsInfo = {};
     const diff = {};
     const probabilities = {};
@@ -43,8 +42,7 @@ module.exports = {
       '```\n' +
       `Minimum value obtained: ${additionnalsInfo.minValue} ETH\n` +
       `Maximum value loss: ${additionnalsInfo.maxLoss} ETH (-${additionnalsInfo.maxLossPercent}%)\n` +
-      '```' +
-      `Last successfull update: <t:${lastUpdate}:R>`
+      '```'
     );
   }
 };

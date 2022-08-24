@@ -11,7 +11,6 @@ module.exports = {
     .setDescription('Replies with differences between revealed and to be revealed supply.'),
   async execute(interaction) {
     const data = (await axios.get(apiUrl + commandName)).data;
-    const lastUpdate = (await axios.get(apiUrl)).data.lastUpdate.toString().slice(0, 10);
     const revealed = {};
     const supposed = {};
     const supplyDiff = {};
@@ -34,8 +33,7 @@ module.exports = {
       `| SUPPLY DIFF.   |${supplyDiff.human} |${supplyDiff.robot} |${supplyDiff.demon} |${supplyDiff.angel} |  ${supplyDiff.reptile} | ${supplyDiff.undead} |   ${supplyDiff.murakami} |${supplyDiff.alien} |\n` +
       `| SUPPLY DIFF. % |${supplyDiffPercent.human} |${supplyDiffPercent.robot} |${supplyDiffPercent.demon} |${supplyDiffPercent.angel} |  ${supplyDiffPercent.reptile} | ${supplyDiffPercent.undead} |   ${supplyDiffPercent.murakami} |${supplyDiffPercent.alien} |\n` +
       ' --------------------------------------------------------------------------------------\n' +
-      '```' +
-      `Last update: <t:${lastUpdate}:R>`
+      '```'
     );
   }
 };
