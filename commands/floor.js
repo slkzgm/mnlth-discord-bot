@@ -18,13 +18,13 @@ module.exports = {
         case 'mnlth':
           mnlth = valuesHandler(collection.floorPrice.toFixed(2), 4);
           break;
-        case 'mnlth2':
+        case 'monolith':
           mnlth2 = valuesHandler(collection.floorPrice.toFixed(2), 4);
           break;
-        case 'dunk':
+        case 'cryptokicks':
           dunk = valuesHandler(collection.floorPrice.toFixed(2), 4);
           break;
-        case 'vials':
+        case 'skinvials':
           vials = valuesHandler(collection.floorPrice.toFixed(2), 4);
           break;
       }
