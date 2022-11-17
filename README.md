@@ -24,7 +24,7 @@ You can also host the bot by yourself following these steps:
 
 3: Install dependencies: `npm install`
 
-5: Create your config.json file:
+4: Create your config.json file:
 
 ```json
 {
@@ -34,7 +34,7 @@ You can also host the bot by yourself following these steps:
 }
 ```
 
-6: run the discord bot: `node .`
+5: run the discord bot: `node .`
 
 # Screenshots:
 
