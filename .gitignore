@@ -47,6 +47,3 @@ Thumbs.db
 *.flv
 *.mov
 *.wmv
-
-# Personnals files
-config.json

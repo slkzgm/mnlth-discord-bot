@@ -1,5 +1,3 @@
-const axios = require('axios');
-const { apiUrl } = require('../config.json');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
 const commandName = 'target';
